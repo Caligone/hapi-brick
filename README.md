@@ -26,8 +26,8 @@ Here is the required structure :
 ```
 ├── UserBrick
 │   ├── index.js                # Entry point of your Brick
-│   ├── models                  # Folder of your models (soon)
-│   │   └── User.model.js       # A model of your Brick (soon)
+│   ├── models                  # Folder of your models
+│   │   └── User.model.js       # A model of your Brick
 │   └── routes                  # Folder of your routes
 │       └── User.get.route.js   # A route of your Brick
 └── index.js                    # The Hapi server
@@ -56,6 +56,64 @@ module.exports.register.attributes = {
 };
 ```
 
+**Model**
+
+A simple `User.model.js` mongoose model file :
+```js
+'use strict';
+    
+module.exports = function (mongoose) {
+    var Schema = mongoose.Schema;
+
+    var UserSchema = new Schema({
+        firstname: {
+            type: String
+        },
+        lastname: {
+            type: String
+        }
+    });
+
+    var UserModel;
+    if (mongoose.models.User) {
+        UserModel = mongoose.models.User;
+    }
+    else {
+        UserModel = mongoose.model('User', UserSchema);   
+    }
+
+    return UserModel;
+};
+```
+
+**or** a Sequelize model file : 
+```js
+"use strict";
+
+module.exports = function(sequelize, DataTypes) {
+
+    var User = sequelize.define("Users", {
+        id_user: {
+            type: DataTypes.BIGINT,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        firstname: {
+            type: DataTypes.STRING(45)
+        },
+        lastname: {
+            type: DataTypes.STRING(45)
+        }
+    }, {});
+
+    return User;
+};
+```
+*If you use Sequelize, your have to change the loader (see Full Brick options below).*
+
+**Controller**
+
+
 A simple `User.get.route.js` route file :
 ```js
 'use strict';
@@ -75,7 +133,6 @@ module.exports = [
     }
 ];
 ```
-
 **4. Load your Brick**
 
 Finally load your Brick from its folder
@@ -84,6 +141,27 @@ server.register({register: require('./UserBrick')}, function (err) {
     // Handle errors
 });
 ```
+
+## Full Brick options
+```
+{
+    routes: {
+        loader: 'classic'
+    },
+    models: {
+        loader: 'mongoose|sequelize',
+        options: {
+            uri: '',
+            # Options for Mongoose or Sequelize connection
+            opts: {}
+        }
+    },
+    tests: {
+        loader: 'lab'
+    }
+}
+```
+[Mongoose options](http://mongoosejs.com/docs/api.html#index_Mongoose-connect) | [Sequelize options](http://docs.sequelizejs.com/en/latest/api/sequelize/)
 
 ## More complex Brick structure
 
@@ -113,13 +191,14 @@ server.register({register: require('./UserBrick')}, function (err) {
 
 The Brick Engine simply load differents kind of file from their extension. Here are the available extensions :
 * **.route.js* : A route file
-* **.model.js* : A model file (soon)
+* **.model.js* : A model file
 * **.spec.js* : A test file (soon)
 
 ## Next things to do
 
-* **Add the database handler** (*Mongoose* or *Sequelize* or *Custom*)
 * **Add the tests handler**
 * Add some documentation
 * Create a demo project
 * Create a Yeoman generator
+* Add the custom database handler
+* Add the Auth handler
