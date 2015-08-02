@@ -1,6 +1,6 @@
 {
   "name": "hapi-brick",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A MVC overlay plugin for Hapi",
   "main": "index.js",
   "scripts": {
