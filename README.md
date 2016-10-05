@@ -1,5 +1,7 @@
 # Hapi-Brick
 
+[![Dependencies status](https://david-dm.org/caligone/hapi-brick.svg)](https://david-dm.org/caligone/hapi-brick)
+
 ***Hapi-Brick*** allows you to functionally split your Hapi server into Bricks.
 
 A Brick is a Hapi plugin that includes a full MVC structure and increases the maintainability and the reusability of your Hapi development.
