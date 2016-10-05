@@ -1,6 +1,7 @@
 # Hapi-Brick
 
 [![Dependencies status](https://david-dm.org/caligone/hapi-brick.svg)](https://david-dm.org/caligone/hapi-brick)
+[![Build Status](https://travis-ci.org/Caligone/hapi-brick.svg?branch=master)](https://travis-ci.org/Caligone/hapi-brick)
 
 ***Hapi-Brick*** allows you to functionally split your Hapi server into Bricks.
 
