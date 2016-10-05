@@ -7,7 +7,7 @@ A Brick is a Hapi plugin that includes a full MVC structure and increases the ma
 
 ## Getting started
 
-**1. Install *hapi-brick***
+**1. Install hapi-brick**
 
 ```
 npm install --save hapi-brick
@@ -57,59 +57,7 @@ module.exports.register.attributes = {
 ```
 
 **Model**
-
-A simple `User.model.js` mongoose model file :
-```js
-'use strict';
-    
-module.exports = function (mongoose) {
-    var Schema = mongoose.Schema;
-
-    var UserSchema = new Schema({
-        firstname: {
-            type: String
-        },
-        lastname: {
-            type: String
-        }
-    });
-
-    var UserModel;
-    if (mongoose.models.User) {
-        UserModel = mongoose.models.User;
-    }
-    else {
-        UserModel = mongoose.model('User', UserSchema);   
-    }
-
-    return UserModel;
-};
-```
-
-**or** a Sequelize model file : 
-```js
-"use strict";
-
-module.exports = function(sequelize, DataTypes) {
-
-    var User = sequelize.define("Users", {
-        id_user: {
-            type: DataTypes.BIGINT,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        firstname: {
-            type: DataTypes.STRING(45)
-        },
-        lastname: {
-            type: DataTypes.STRING(45)
-        }
-    }, {});
-
-    return User;
-};
-```
-*If you use Sequelize, your have to change the loader (see Full Brick options below).*
+*TODO*
 
 **Controller**
 
@@ -142,26 +90,6 @@ server.register({register: require('./UserBrick')}, function (err) {
 });
 ```
 
-## Full Brick options
-```
-{
-    routes: {
-        loader: 'classic'
-    },
-    models: {
-        loader: 'mongoose|sequelize',
-        options: {
-            uri: '',
-            # Options for Mongoose or Sequelize connection
-            opts: {}
-        }
-    },
-    tests: {
-        loader: 'lab'
-    }
-}
-```
-[Mongoose options](http://mongoosejs.com/docs/api.html#index_Mongoose-connect) | [Sequelize options](http://docs.sequelizejs.com/en/latest/api/sequelize/)
 
 ## More complex Brick structure
 
