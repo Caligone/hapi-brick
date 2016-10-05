@@ -1,10 +1,10 @@
 {
   "name": "hapi-brick",
   "version": "0.2.0",
-  "description": "A MVC overlay plugin for Hapi",
+  "description": "A MVC* overlay plugin for Hapi",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "lab --verbose --coverage --timeout 1000 --pattern .spec test"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,12 @@
   },
   "homepage": "https://github.com/Caligone/hapi-brick",
   "dependencies": {
-    "mongoose": "^4.1.0",
-    "sequelize": "^3.5.1"
+    "async": "^2.0.1",
+    "glob": "^7.1.0"
+  },
+  "devDependencies": {
+    "code": "^4.0.0",
+    "lab": "^11.1.0",
+    "sinon": "^1.17.6"
   }
 }
