@@ -7,3 +7,5 @@ node_js:
 branches:
   only:
     - master
+
+after_script: ./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls
