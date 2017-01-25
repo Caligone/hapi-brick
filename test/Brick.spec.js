@@ -40,16 +40,31 @@ lab.suite('Brick:class', () => {
       brick = new Brick('.', ['NonExisting']);
       Code.fail('The exception should be raise before this');
     } catch (err) {
-      expect(err).to.be.an.error(Error, 'NonExistingLoader does not exist !');
+      expect(err).to.be.an.error(Error, 'NonExistingLoader could not be found !');
     }
     endTest();
   });
 
-  lab.test('it properly registers a simple loader', (endTest) => {
+  lab.test('it properly registers a simple loader from string', (endTest) => {
     let stub = Sinon.stub(require('path'), 'join');
     stub.onFirstCall().returns(`${__dirname}/mock/SimpleLoader`);
 
     let brick = new Brick(__dirname, ['Simple']);
+
+    stub.restore();
+
+    expect(brick._loaders).to.be.an.array().and.to.have.length(1);
+
+    brick.register(mock.server, {}, () => {
+      endTest();
+    });
+  });
+
+  lab.test('it properly registers a simple loader from function', (endTest) => {
+    let stub = Sinon.stub(require('path'), 'join');
+    stub.onFirstCall().returns(`${__dirname}/mock/SimpleLoader`);
+
+    let brick = new Brick(__dirname, [require('./mock/SimpleLoader')]);
 
     stub.restore();
 
