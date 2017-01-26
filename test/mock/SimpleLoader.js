@@ -1,7 +1,7 @@
 // $lab:coverage:off$
 'use strict';
 
-const Loader = require('../../lib/loaders/Loader');
+const Loader = require('hapi-brick-loader');
 
 class SimpleLoader extends Loader {
 
