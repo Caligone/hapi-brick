@@ -45,14 +45,17 @@ lab.suite('Brick:class', () => {
     endTest();
   });
 
-  lab.test('it properly registers a simple loader from function', (endTest) => {
-    let stub = Sinon.stub(require('path'), 'join');
-    stub.onFirstCall().returns(`${__dirname}/mock/SimpleLoader`);
-
+  lab.test('it properly registers a simple loader', (endTest) => {
     let brick = new Brick(__dirname, [require('./mock/SimpleLoader')]);
+    expect(brick._loaders).to.be.an.array().and.to.have.length(1);
 
-    stub.restore();
+    brick.register(mock.server, {}, () => {
+      endTest();
+    });
+  });
 
+  lab.test('it properly registers a simple loader with dependency', (endTest) => {
+    let brick = new Brick(__dirname, [require('./mock/SimpleLoader')], ['NonExisting']);
     expect(brick._loaders).to.be.an.array().and.to.have.length(1);
 
     brick.register(mock.server, {}, () => {
@@ -61,13 +64,7 @@ lab.suite('Brick:class', () => {
   });
 
   lab.test('it properly fails if one loader fails', (endTest) => {
-    let pathStub = Sinon.stub(require('path'), 'join');
-    pathStub.onFirstCall().returns(`${__dirname}/mock/SimpleLoader`);
-
     let brick = new Brick(__dirname, [require('./mock/SimpleLoader')]);
-
-    pathStub.restore();
-
     expect(brick._loaders).to.be.an.array().and.to.have.length(1);
 
     let loaderStub = Sinon.stub(brick._loaders[0], 'process');
