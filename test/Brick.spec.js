@@ -28,9 +28,9 @@ lab.suite('Brick:class', () => {
     endTest();
   });
 
-  lab.test('it properly set the default loaders', (endTest) => {
-    let brick = new Brick('.');
-    expect(brick._loaders).to.be.an.array().and.to.have.length(2);
+  lab.test('it properly set no default loaders', (endTest) => {
+    let brick = new Brick('Test');
+    expect(brick._loaders).to.be.an.array().and.to.have.length(0);
     endTest();
   });
 
@@ -40,24 +40,9 @@ lab.suite('Brick:class', () => {
       brick = new Brick('.', ['NonExisting']);
       Code.fail('The exception should be raise before this');
     } catch (err) {
-      expect(err).to.be.an.error(Error, 'NonExistingLoader could not be found !');
+      expect(err).to.be.an.error(Error, 'The loader #1 seems invalid !');
     }
     endTest();
-  });
-
-  lab.test('it properly registers a simple loader from string', (endTest) => {
-    let stub = Sinon.stub(require('path'), 'join');
-    stub.onFirstCall().returns(`${__dirname}/mock/SimpleLoader`);
-
-    let brick = new Brick(__dirname, ['Simple']);
-
-    stub.restore();
-
-    expect(brick._loaders).to.be.an.array().and.to.have.length(1);
-
-    brick.register(mock.server, {}, () => {
-      endTest();
-    });
   });
 
   lab.test('it properly registers a simple loader from function', (endTest) => {
@@ -79,7 +64,7 @@ lab.suite('Brick:class', () => {
     let pathStub = Sinon.stub(require('path'), 'join');
     pathStub.onFirstCall().returns(`${__dirname}/mock/SimpleLoader`);
 
-    let brick = new Brick(__dirname, ['Simple']);
+    let brick = new Brick(__dirname, [require('./mock/SimpleLoader')]);
 
     pathStub.restore();
 
