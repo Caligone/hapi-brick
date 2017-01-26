@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/Caligone/hapi-brick",
   "dependencies": {
-    "async": "^2.0.1",
     "glob": "^7.1.0"
   },
   "devDependencies": {
